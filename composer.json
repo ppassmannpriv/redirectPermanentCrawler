@@ -1,0 +1,27 @@
+{
+  "name": ".htaccess Redirect-Crawler",
+  "description": "This little thing will crawl through your .htaccess Redirects (which you'll have to supply, duh) and tell if any of them 404",
+  "keywords": ["crawler", "php", ".htaccess", "seo"],
+  "license": "none",
+  "authors": [
+    {
+      "name": "Pieter Passmann",
+      "email": "pieter.passmann@gmail.com",
+      "role": "Creator/Main Dev"
+    }
+  ],
+  "require": {
+    "php": ">= 5.5.0",
+    "php-curl-class/php-curl-class": "^4.11",
+    "filp/whoops": ">=1.1.2",
+    "patricklouys/http": ">=1.1.0",
+    "nikic/fast-route": "~1.0",
+    "rdlowrey/auryn": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Crawler\\": "app/"
+    }
+  }
+
+}
