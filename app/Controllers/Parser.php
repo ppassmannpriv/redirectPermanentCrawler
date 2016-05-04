@@ -33,7 +33,7 @@ class Parser
   public function run()
   {
     $this->response->setHeader('Content-Type', 'application/json');
-    $content = $this->curl->runSingleUrl('http://www.buhv.de/gemeindepaedagogik/Themenhefte-Gemeinde/Caritas-und-Diakonie-%28kath.-und-ev.%29.html');
+    $content = $this->curl->runSingleUrl('https://www.buhv.de/kirche/Kalligraphie-mit-Goldpraegung.html');
     $this->response->setContent($content);
   }
 

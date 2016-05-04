@@ -13,6 +13,7 @@ class CurlList
   private $errors = false;
   private $successes = false;
   private $baseUrl = false;
+  private $recursionProtectionCounter = 0;
 
   public function __construct(Files $files)
   {
@@ -58,17 +59,25 @@ class CurlList
 
   private function runHeaderOnly($url)
   {
+      $callingUrl = $url;
+
       $headers = get_headers($url, 1);
 
       if(is_array($headers) && in_array('HTTP/1.1 301 Moved Permanently', $headers))
       {
-
         $url = $headers['Location'];
         if(strpos($url, $this->baseUrl) === false)
         {
           $url = $this->baseUrl.$url;
         }
-
+        if(str_replace(array('http://', 'https://'), '', $url) === str_replace(array('http://', 'https://'), '', $callingUrl)) {
+          $this->recursionProtectionCounter++;
+        }
+        if($this->recursionProtectionCounter >= 5)
+        {
+          $this->recursionProtectionCounter = 0;
+          return json_encode(array('success' => false, 'url' => $url, 'debug' => 'Too many redirects'));
+        }
         $headers = json_decode($this->runHeaderOnly(str_replace('Location: ', '', $url)), true);
 
       }
@@ -82,6 +91,8 @@ class CurlList
       } else {
           return json_encode(array('success' => 'warning', 'url' => $url, 'debug' => false));
       }
+      //TODO: Check why debug-info is spammed sometimes. it is not wrong but just spammed so often?
+      //check into always using headers['Location']
   }
 
   private function runSingleCurls()
