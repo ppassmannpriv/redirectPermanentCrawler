@@ -1,0 +1,10 @@
+div#viewer { background: #eee; font-size: 0.85em; padding: 30px; float:left; width: 100%; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+.comma { }
+.line { float:left; width: 100%; clear: both; }
+
+.line.error span.string { color: red !important; font-weight: bold !important; }
