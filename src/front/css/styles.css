@@ -1,5 +1,5 @@
 div#viewer { background: #eee; font-size: 0.85em; padding: 30px; float:left; width: 100%; }
-.string { color: green; }
+.success .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }
 .null { color: magenta; }
@@ -8,3 +8,5 @@ div#viewer { background: #eee; font-size: 0.85em; padding: 30px; float:left; wid
 .line { float:left; width: 100%; clear: both; }
 
 .line.error span.string { color: red !important; font-weight: bold !important; }
+
+.line .error-msg { padding: 3px 10px 20px 20px; }

@@ -5,24 +5,37 @@ $('#get-urls').on('click', function(e){
     var str = JSON.parse(data);
     $('#viewer').html('<div id="viewer">' + DumpObjectIndented(str) + '</div>');
     $('#check-all-urls').addClass('btn-primary').removeClass('btn-secondary');
+    $('#run-all-urls').addClass('btn-danger').removeClass('btn-secondary');
   });
 });
 
 $('#check-all-urls').on('click', function(e){
-  console.log(checkUrl($('#viewer .line:not(.done)').first()));
+  $(this).addClass('active');
+  checkUrl($('#viewer .line:not(.done)').first());
 });
 
 $(document).on('checkNextUrl', function(e)
 {
-  console.log(checkUrl($('#viewer .line:not(.done)').first()));
+  checkUrl($('#viewer .line:not(.done)').first());
 });
 
-function checkUrl(element)
+$('#run-all-urls').on('click', function(e){
+  $(this).addClass('active');
+  $('#check-all-urls').removeClass('btn-primary').addClass('btn-secondary');
+  checkUrl($('#viewer .line:not(.done)').first(), true);
+});
+
+$(document).on('runNextUrl', function(e)
+{
+  checkUrl($('#viewer .line:not(.done)').first(), true);
+});
+var errorUrls = [];
+function checkUrl(element, writetofile)
 {
   var target = element.text().split(' : ')[1].replace("'", "").replace("',", "");
   $.post('/runsingle', { url: target }).done(function(data){
     element.addClass('done');
-    $.event.trigger('checkNextUrl');
+    $.event.trigger('runNextUrl');
     data = JSON.parse(data);
     if(data.success == true)
     {
@@ -32,7 +45,15 @@ function checkUrl(element)
       element.append('<span class="warning">Check manually!</span>');
     } else {
       element.addClass('error');
-      element.append(JSON.stringify(data));
+      element.append('<div class="error-msg">' + JSON.stringify(data) + '</div>');
+      if(writetofile)
+      {
+        errorUrls.push(target);
+
+        $.post('/cleanupfile', { url: target }).done(function(data){
+          console.log(target + ' - has been deleted as redirect!');
+        });
+      }
     }
     return data;
   });

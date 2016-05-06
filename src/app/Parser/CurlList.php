@@ -63,7 +63,7 @@ class CurlList
 
       $headers = get_headers($url, 1);
 
-      if(is_array($headers) && in_array('HTTP/1.1 301 Moved Permanently', $headers))
+      if(is_array($headers) && (in_array('HTTP/1.1 301 Moved Permanently', $headers) || in_array('HTTP/1.1 302 Found', $headers)))
       {
         $url = $headers['Location'];
         if(strpos($url, $this->baseUrl) === false)
@@ -93,6 +93,11 @@ class CurlList
       }
       //TODO: Check why debug-info is spammed sometimes. it is not wrong but just spammed so often?
       //check into always using headers['Location']
+  }
+
+  public function cleanUpWorkfile($url)
+  {
+    return $this->files->deleteUrlFromFile($url);
   }
 
   private function runSingleCurls()

@@ -52,6 +52,7 @@ class Homepage
               <div class="col-md-4">
                 <button type="button" id="get-urls" class="btn btn-primary">Get URLs</button>
                 <button type="button" id="check-all-urls" class="btn btn-secondary btn-disabled">Check all URLs</button>
+                <button type="button" id="run-all-urls" class="btn btn-disabled btn-secondary">Run all URLs</button>
               </div>
             </div>
           </div>

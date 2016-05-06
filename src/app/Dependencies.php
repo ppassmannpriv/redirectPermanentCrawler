@@ -16,7 +16,9 @@ $injector->alias('Http\Response', 'Http\HttpResponse');
 $injector->share('Http\HttpResponse');
 
 $injector->define('Crawler\Parser\FilesParser', [
-  ':fileFolder' => __DIR__ . '/../checkfiles',
+  ':fileFolder' => __DIR__ . '/../workingdirectory/checkfiles',
+  ':resultFolder' => __DIR__.'/../workingdirectory/resultfiles',
+  ':workingDirectory' => __DIR__.'/../workingdirectory'
 ]);
 
 $injector->alias('Crawler\Parser\Files', 'Crawler\Parser\FilesParser');
